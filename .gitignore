@@ -1,2 +1,11 @@
 *~
 *.pyc
+
+# Python virtualenv
+bin/
+include/
+lib/
+.Python
+
+# Installer logs
+pip-selfcheck.json
