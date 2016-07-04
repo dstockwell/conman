@@ -9,4 +9,4 @@ libraries:
 
 handlers:
 - url: /.*
-  script: hello-world.app
+  script: api.api.app
