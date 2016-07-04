@@ -22,14 +22,14 @@ class GetCon(webapp2.RequestHandler):
   def get(self, name):
     con = Con.get_by_id(name.lower(), read_policy=ndb.EVENTUAL_CONSISTENCY)
     if con is None:
-      self.response.set_status(404)
+      self.response.write("No conference named '%s' available" % (name))
       return
     self.response.headers['Content-Type'] = 'text/json'
     self.response.write(json.dumps({
       'name': name,
       'full_name': con.full_name,
-      'start': con.start,
-      'end': con.end,
+      'start': con.start.isoformat(),
+      'end': con.end.isoformat(),
     }));
 
 app = webapp2.WSGIApplication([
