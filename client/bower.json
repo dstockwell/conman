@@ -1,0 +1,10 @@
+{
+  "name": "conman",
+  "homepage": "https://github.com/dstockwell/conman",
+  "main": "index.html",
+  "license": "apache2",
+  "private": true,
+  "dependencies": {
+    "polymer": "^1.6.0"
+  }
+}
