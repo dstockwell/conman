@@ -4,8 +4,35 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<base href="/client/">
 <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 
 <link rel="manifest" href="manifest.json">
+<link rel="import" href="bower_components/platinum-sw/platinum-sw-elements.html">
+<link rel="import" href="bower_components/polymerfire/firebase-app.html">
 <link rel="import" href="conman-app.html">
+
+<style>
+body {
+  margin: 0;
+}
+</style>
+
+<platinum-sw-register
+    auto-register
+    skip-waiting
+    clients-claim
+    reload-on-install
+    href="sw-import.js">
+  <platinum-sw-cache
+      default-cache-strategy="networkFirst">
+  </platinum-sw-cache>
+</platinum-sw-register>
+
+<firebase-app
+    name="con-man"
+    api-key="AIzaSyAyRrirXzzFsJFOOMgXCgFyolJ0EIVKOVk"
+    auth-domain="con-man.firebaseapp.com"
+    database-url="https://con-man.firebaseio.com">
+</firebase-app>
+
+<conman-app></conman-app>

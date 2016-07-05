@@ -8,11 +8,11 @@ libraries:
   version: latest
 
 handlers:
-- url: /.*/api/.*
+- url: /[a-zA-Z-]+/api/.*
   script: api.api.app
-- url: /client/(.*\.(html|js|css))
-  upload: client/.*\.(html|js|css)
+- url: /[a-zA-Z-]+/(.*\.(html|css|js|json))
+  upload: client/.*\.(html|css|js|json)
   static_files: client/\1
-- url: /.*
+- url: /[a-zA-Z-]+/
   upload: client/index.html
   static_files: client/index.html
