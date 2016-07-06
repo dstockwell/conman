@@ -1,0 +1,41 @@
+<script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+<link rel=import href=offline-cache.html>
+<link rel=import href=bower_components/polymer/polymer.html>
+
+
+<dom-module id=offline-cache-test>
+  <template>
+    <label for="in">in:</label>
+    <input id="in" type="value" value="{{raw::input}}"></input>
+    <div>out: [[stringify(out)]]</div>
+    <offline-cache id=cache key="data" in="{{in}}" out="{{out}}"></offline-cache>
+  </template>
+  <script>
+    Polymer({
+      is: 'offline-cache-test',
+      properties: {
+        raw: {
+          type: String,
+          value: '',
+          notify: true,
+        },
+        in: {
+          type: Object,
+          value: null,
+          notify: true,
+        }
+      },
+      observers: [
+        '_rawChanged(raw)',
+      ],
+      _rawChanged(raw) {
+        this.in = raw == '' ? null : raw;
+      },
+      stringify(value) {
+        return JSON.stringify(value);
+      },
+    });
+  </script>
+</dom-module>
+
+<offline-cache-test></offline-cache-test>

@@ -1,0 +1,110 @@
+<link rel=import href=bower_components/polymer/polymer.html>
+
+<dom-module id=offline-cache>
+  <script>
+    Polymer({
+      is: 'offline-cache',
+      properties: {
+        scope: {
+          type: String,
+          value: 'default',
+        },
+        key: {
+          type: String,
+          value: 'default',
+        },
+        in: {
+          type: Object,
+        },
+        out: {
+          type: Object,
+          readOnly: true,
+          notify: true,
+        },
+      },
+      observers: [
+        '_inChanged(in.*)',
+        '_targetChanged(key, scope)',
+      ],
+      _inChanged(change) {
+        var value = this.in;
+        if (value != null) {
+          if (value === this.out) {
+            this.notifyPath('out' + change.path.substr(2));
+          } else {
+            this._setOut(value);
+          }
+          this._maybePersist();
+        }
+      },
+      _targetChanged() {
+        // FIXME: How do we wait for all property changes to settle
+        // (for example if both key and scope change together.)
+        // It's OK to run them multiple times for restore, but not persist.
+        this._maybeRestore();
+        this._maybePersist();
+      },
+      _transaction(type='readwrite') {
+        if (!this._db) {
+          let scope = this.scope;
+          this._db = new Promise((resolve, reject) => {
+            let request = indexedDB.open(scope);
+            request.onupgradeneeded = () => request.result.createObjectStore('data');
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = reject;
+          });
+        }
+        return this._db.then(db => db.transaction(['data'], type));
+      },
+      _maybePersist() {
+        // FIXME: Coalesce frequent updates.
+        if (this.in == null) {
+          // Nothing to persist.
+          return;
+        }
+        let value = this.in;
+        let key = this.key;
+        console.log('persist', this.scope, this.key);
+        this._transaction().then(tx => {
+          var request = tx.objectStore('data').put(value, key);
+          return new Promise((resolve, reject) => {
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = reject;
+          });
+        })
+      },
+      _maybeRestore() {
+        if (this.in != null) {
+          // We have live data, no need to restore.
+          return;
+        }
+        console.log('restore', this.scope, this.key);
+        let scope = this.scope;
+        let key = this.key;
+        this._transaction('readonly').then(tx => {
+          var request = tx.objectStore('data').get(key);
+          return new Promise((resolve, reject) => {
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = reject;
+          });
+        }).then(value => {
+          if (key != this.key || scope != this.scope) {
+            // The key or scope changed while we were restoring.
+            // A new restore attempt would have been triggered by
+            // their observers if necessary.
+          } else if (this.in == null) {
+            this._setOut(value);
+          }
+        });
+      },
+      ready() {
+        // FIXME: Consumer should be able to configure fallback policy.
+        // eg.
+        // 1. Restore if null && !navigator.onLine
+        // 2. Restore if null && duration elapses
+        // FIXME: targetChanged is already doing this
+        // this._maybeRestore();
+      },
+    });
+  </script>
+</dom-module>
