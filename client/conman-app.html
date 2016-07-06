@@ -18,9 +18,9 @@
         data="{{data}}"
         tail="{{tail}}"></app-route>
 
-    <na-toolbar
+    <conman-toolbar
         signed-in="[[signedIn]]"
-        on-sign-out="signOut"></na-toolbar>
+        on-sign-out="signOut"></conman-toolbar>
     <na-login
         on-sign-in="signIn"
         signed-in="[[signedIn]]"
@@ -38,7 +38,7 @@
         path="/con/{{data.con}}/summary"
         data="{{remoteSummary}}"></firebase-document>
     <app-indexeddb-mirror
-        session="[[user.uid]]"
+        session="bob"
         key="{{data.con}}/summary"
         data="{{remoteSummary}}"
         persisted-data="{{summary}}"></app-indexeddb-mirror>
