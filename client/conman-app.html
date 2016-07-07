@@ -41,11 +41,13 @@
         scope="conman/static"
         key="uid"
         in="[[user.uid]]"
+        suppress-empty
         out="{{uid}}"></offline-cache>
     <offline-cache
-        scope="conman/user/{{uid}}"
+        scope="conman/static"
         key="[[data.con]]/summary"
         in="{{remoteSummary}}"
+        suppress-empty
         out="{{summary}}"></offline-cache>
 
     <conman-summary summary="[[summary]]"></conman-summary>

@@ -23,6 +23,10 @@
           notify: true,
           value: null,
         },
+        suppressEmpty: {
+          type: Boolean,
+          value: false,
+        }
       },
       observers: [
         '_inChanged(in.*)',
@@ -30,7 +34,7 @@
       ],
       _inChanged(change) {
         var value = this.in;
-        if (this._hasValidIn()) {
+        if (this._hasValidInput()) {
           if (value === this.out) {
             this.notifyPath('out' + change.path.substr(2));
           } else {
@@ -60,7 +64,7 @@
       },
       _maybePersist() {
         // FIXME: Coalesce frequent updates.
-        if (!this._hasValidIn()) {
+        if (!this._hasValidInput()) {
           // Nothing to persist.
           return;
         }
@@ -76,7 +80,7 @@
         })
       },
       _maybeRestore() {
-        if (this._hasValidIn()) {
+        if (this._hasValidInput()) {
           // We have live data, no need to restore.
           return;
         }
@@ -94,7 +98,7 @@
             // The key or scope changed while we were restoring.
             // A new restore attempt would have been triggered by
             // their observers if necessary.
-          } else if (!this._hasValidIn()) {
+          } else if (!this._hasValidInput()) {
             this._setOut(value);
           }
         });
@@ -106,9 +110,18 @@
         // 2. Restore if null && duration elapses
         this._targetChanged();
       },
-      _hasValidIn() {
+      _hasValidInput() {
         var value = this.in;
-        return (value != null && value != "" && (typeof value != 'object' || Object.keys(value) != 0));
+        if (value == null)
+          return false;
+
+        if (!this.suppressEmpty)
+          return true;
+        if (typeof value == 'string' && value == '')
+          return false;
+        if (typeof value == 'object' && Object.keys(value) == 0)
+          return false;
+        return true;
       },
     });
   </script>
