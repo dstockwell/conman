@@ -38,11 +38,11 @@
         }
       },
       _targetChanged() {
-        // FIXME: How do we wait for all property changes to settle
-        // (for example if both key and scope change together.)
-        // It's OK to run them multiple times for restore, but not persist.
-        this._maybeRestore();
-        this._maybePersist();
+        this._db = null;
+        this.debounce('restore-persist', () => {
+          this._maybeRestore();
+          this._maybePersist();
+        });
       },
       _transaction(type='readwrite') {
         if (!this._db) {
@@ -102,8 +102,7 @@
         // eg.
         // 1. Restore if null && !navigator.onLine
         // 2. Restore if null && duration elapses
-        // FIXME: targetChanged is already doing this
-        // this._maybeRestore();
+        this._targetChanged();
       },
     });
   </script>

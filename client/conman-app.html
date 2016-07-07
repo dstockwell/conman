@@ -2,7 +2,7 @@
 
 <link rel="import" href="conman-summary.html">
 <link rel="import" href="na-elements.html">
-<link rel="import" href="bower_components/app-storage/app-indexeddb-mirror/app-indexeddb-mirror.html">
+<link rel="import" href="offline-cache.html">
 <link rel="import" href="bower_components/polymerfire/polymerfire.html">
 
 <link rel="import" href="bower_components/app-route/app-route.html">
@@ -37,11 +37,16 @@
         app-name="con-man"
         path="/con/{{data.con}}/summary"
         data="{{remoteSummary}}"></firebase-document>
-    <app-indexeddb-mirror
-        session="bob"
-        key="{{data.con}}/summary"
-        data="{{remoteSummary}}"
-        persisted-data="{{summary}}"></app-indexeddb-mirror>
+    <offline-cache
+        scope="conman/static"
+        key="uid"
+        in="[[user.uid]]"
+        out="{{uid}}"></offline-cache>
+    <offline-cache
+        scope="conman/user/{{uid}}"
+        key="[[data.con]]/summary"
+        in="{{remoteSummary}}"
+        out="{{summary}}"></offline-cache>
 
     <conman-summary summary="[[summary]]"></conman-summary>
   </template>
