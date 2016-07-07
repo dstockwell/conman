@@ -15,11 +15,13 @@
         },
         in: {
           type: Object,
+          value: null,
         },
         out: {
           type: Object,
           readOnly: true,
           notify: true,
+          value: null,
         },
       },
       observers: [
@@ -28,7 +30,7 @@
       ],
       _inChanged(change) {
         var value = this.in;
-        if (value != null) {
+        if (this._hasValidIn()) {
           if (value === this.out) {
             this.notifyPath('out' + change.path.substr(2));
           } else {
@@ -58,7 +60,7 @@
       },
       _maybePersist() {
         // FIXME: Coalesce frequent updates.
-        if (this.in == null) {
+        if (!this._hasValidIn()) {
           // Nothing to persist.
           return;
         }
@@ -74,7 +76,7 @@
         })
       },
       _maybeRestore() {
-        if (this.in != null) {
+        if (this._hasValidIn()) {
           // We have live data, no need to restore.
           return;
         }
@@ -92,7 +94,7 @@
             // The key or scope changed while we were restoring.
             // A new restore attempt would have been triggered by
             // their observers if necessary.
-          } else if (this.in == null) {
+          } else if (!this._hasValidIn()) {
             this._setOut(value);
           }
         });
@@ -103,6 +105,10 @@
         // 1. Restore if null && !navigator.onLine
         // 2. Restore if null && duration elapses
         this._targetChanged();
+      },
+      _hasValidIn() {
+        var value = this.in;
+        return (value != null && value != "" && (typeof value != 'object' || Object.keys(value) != 0));
       },
     });
   </script>
