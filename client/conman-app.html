@@ -17,9 +17,9 @@
         pattern="/:con/:page"
         data="{{data}}"
         tail="{{tail}}"></app-route>
-
     <conman-toolbar
-        signed-in="[[signedIn]]"
+        conf-name="[[summary.name]]"
+        user="[[user.displayName]]"
         on-sign-out="signOut"></conman-toolbar>
     <na-login
         on-sign-in="signIn"
