@@ -1,37 +1,103 @@
+<script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+
 <link rel="import" href="bower_components/polymer/polymer.html">
+
+<link rel="import" href="bower_components/paper-styles/color.html">
+<link rel="import" href="bower_components/font-roboto/roboto.html">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,700">
 
 <link rel="import" href="conman-summary.html">
 <link rel="import" href="na-elements.html">
 <link rel="import" href="offline-cache.html">
 <link rel="import" href="bower_components/polymerfire/polymerfire.html">
 
+<link rel="import" href="bower_components/font-roboto/roboto.html">
+<link rel="import" href="bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="bower_components/paper-progress/paper-progress.html">
+<link rel="import" href="bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="bower_components/app-route/app-route.html">
 <link rel="import" href="bower_components/app-route/app-location.html">
 
 <dom-module id="conman-app">
   <template>
-    <style include="note-app-shared-styles"></style>
+    <style is="custom-style">
+        body {
+          margin: 0;
+          font-family: 'Roboto', 'Noto', sans-serif;
+          background-color: #eee;
+        }
+
+        app-header {
+          background-color: #4285f4;
+          color: #fff;
+        }
+
+        app-toolbar {
+          font-family: 'Roboto', 'Noto', sans-serif;
+          background-color: #4285f4;
+          color: #fff;
+        }
+         
+        app-header paper-icon-button {
+          --paper-icon-button-ink-color: white;
+        }
+        paper-icon-button + [main-title] {
+            margin-left: 24px;
+        }
+    </style>
     <app-location route="{{route}}"></app-location>
     <app-route
         route="{{route}}"
         pattern="/:con/:page"
         data="{{data}}"
         tail="{{tail}}"></app-route>
-    <conman-toolbar
-        conf-name="[[summary.name]]"
-        user="[[user.displayName]]"
-        on-sign-out="signOut"></conman-toolbar>
+
+  <app-header-layout>
+    <app-header effects="waterfall" reveals>
+      <app-toolbar>
+        <paper-icon-button icon="menu"></paper-icon-button>
+        <div main-title>[[summary.name]]</div>
+      </app-toolbar>
+    </app-header>
+  </app-header-layout>
+
+<app-drawer swipe-open>
     <na-login
         on-sign-in="signIn"
         signed-in="[[signedIn]]"
         disabled="[[!online]]"></na-login>
+        
+    <div class="drawer-contents">
+        Welcome [[user.displayName]]
+    </div>
+</app-drawer>
+
+  <script>
+    var drawer = document.querySelector('app-drawer');
+    document.querySelector('paper-icon-button').addEventListener('tap', function() {
+      drawer.toggle();
+    });
+  </script>
+  
+  <!--
+      <conman-toolbar
+        conf-name="[[summary.name]]"
+        user="[[user.displayName]]"
+        on-sign-out="signOut"></conman-toolbar>
+-->
+
+
     <firebase-auth
         id="auth"
         app-name="con-man"
         provider="google"
         signed-in="{{signedIn}}"
         user="{{user}}"> </firebase-auth>
-
     <!-- these should be created lazily?? -->
     <firebase-document
         app-name="con-man"
