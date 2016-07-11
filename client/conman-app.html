@@ -29,7 +29,7 @@
           background-color: #4285f4;
           color: #fff;
         }
-         
+
         app-header paper-icon-button {
           --paper-icon-button-ink-color: white;
         }
@@ -93,6 +93,8 @@
         scope="conman/static"
         key="[[data.con]]/summary"
         in="{{remoteSummary}}"
+        default="[[defaultSummary]]"
+        timeout=100
         suppress-empty
         out="{{summary}}"></offline-cache>
 
@@ -104,6 +106,13 @@
       behaviors: [Polymer.NoteAppBehavior],
       signIn: function() {
         this.$.auth.signInWithPopup();
+      },
+      properties: {
+        defaultSummary: {
+          value: {
+            name: 'Conference Manager',
+          },
+        },
       },
     });
   </script>
