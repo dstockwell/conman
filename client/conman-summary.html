@@ -2,9 +2,16 @@
 <link rel="import" href="bower_components/marked-element/marked-element.html">
 <dom-module id="conman-summary">
   <template>
-    <marked-element markdown="[[summary.description]]">
-      <div class="markdown-html"></div>
-    </marked-element>
+    <style>
+      #summary-wrapper {
+        margin: 0px 1em;
+      }
+    </style>
+    <div id="summary-wrapper">
+      <marked-element markdown="[[summary.description]]">
+        <div class="markdown-html"></div>
+      </marked-element>
+    </div>
   </template>
   <script>
     Polymer({
