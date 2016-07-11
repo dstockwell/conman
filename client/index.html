@@ -4,6 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<base>
+<script>
+// Setup base url relative to conman.com/<con>/
+document
+    .querySelector('base')
+    .setAttribute('href', document.location.pathname.match('/[^/]+') + '/');
+</script>
+
 <link rel="manifest" href="manifest.json">
 
 <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
@@ -14,7 +22,7 @@
 <link rel="import" href="bower_components/platinum-sw/platinum-sw-elements.html">
 <link rel="import" href="bower_components/polymerfire/firebase-app.html">
 
-<link rel="import" href="conman-app.html"> 
+<link rel="import" href="conman-app.html">
 
 <style>
   body {
@@ -24,6 +32,7 @@
   }
 </style>
 
+<!-- FIXME: sw-import.js needs to use base url -->
 <platinum-sw-register
     auto-register
     skip-waiting
