@@ -26,7 +26,15 @@
         suppressEmpty: {
           type: Boolean,
           value: false,
-        }
+        },
+        default: {
+          type: Object,
+          value: null,
+        },
+        timeout: {
+          type: Number,
+          value: 0,
+        },
       },
       observers: [
         '_inChanged(in.*)',
@@ -99,7 +107,17 @@
             // A new restore attempt would have been triggered by
             // their observers if necessary.
           } else if (!this._hasValidInput()) {
-            this._setOut(value);
+            if (value === undefined && this.default) {
+    console.log('waiting');
+              setTimeout(() => {
+                if (!this._hasValidInput()) {
+    console.log('showing default');
+                  this._setOut(this.default);
+                }
+              }, this.timeout);
+            } else {
+              this._setOut(value);
+            }
           }
         });
       },
