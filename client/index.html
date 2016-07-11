@@ -4,17 +4,24 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<link rel="manifest" href="manifest.json">
+
 <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 
-<link rel="manifest" href="manifest.json">
+<link rel="import" href="bower_components/font-roboto/roboto.html">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,700">
+
 <link rel="import" href="bower_components/platinum-sw/platinum-sw-elements.html">
 <link rel="import" href="bower_components/polymerfire/firebase-app.html">
-<link rel="import" href="conman-app.html">
+
+<link rel="import" href="conman-app.html"> 
 
 <style>
-body {
-  margin: 0;
-}
+  body {
+    margin: 0;
+    font-family: 'Roboto', 'Noto', sans-serif;
+    background-color: #eee;
+  }
 </style>
 
 <platinum-sw-register
@@ -35,4 +42,4 @@ body {
     database-url="https://con-man.firebaseio.com">
 </firebase-app>
 
-<conman-app></conman-app>
+<conman-app></conman-app> 
