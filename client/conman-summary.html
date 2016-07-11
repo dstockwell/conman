@@ -1,63 +1,10 @@
 <link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/marked-element/marked-element.html">
 <dom-module id="conman-summary">
   <template>
-    <div>Conference summary: [[summary.name]]</div>
-    <div>1 Summary goes here!</div>
-    <div>2 Summary goes here!</div>
-    <div>3 Summary goes here!</div>
-    <div>4 Summary goes here!</div>
-    <div>5 Summary goes here!</div>
-    <div>6 Summary goes here!</div>
-    <div>7 Summary goes here!</div>
-    <div>8 Summary goes here!</div>
-    <div>9 Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
-    <div>Summary goes here!</div>
+    <marked-element markdown="[[summary.description]]">
+      <div class="markdown-html"></div>
+    </marked-element>
   </template>
   <script>
     Polymer({
