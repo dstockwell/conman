@@ -1,22 +1,22 @@
-<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="../polymer/polymer.html">
 
-<link rel="import" href="bower_components/paper-styles/color.html">
+<link rel="import" href="../paper-styles/color.html">
 
-<link rel="import" href="conman-summary.html">
-<link rel="import" href="na-elements.html">
-<link rel="import" href="offline-cache.html">
-<link rel="import" href="bower_components/polymerfire/polymerfire.html">
+<link rel="import" href="../conman/conman-summary.html">
+<link rel="import" href="../conman/na-login.html">
+<link rel="import" href="../conman/offline-cache.html">
+<link rel="import" href="../polymerfire/polymerfire.html">
 
-<link rel="import" href="bower_components/iron-icons/iron-icons.html">
-<link rel="import" href="bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="bower_components/app-layout/app-toolbar/app-toolbar.html">
-<link rel="import" href="bower_components/app-layout/app-drawer/app-drawer.html">
-<link rel="import" href="bower_components/app-layout/app-header-layout/app-header-layout.html">
-<link rel="import" href="bower_components/app-layout/app-header/app-header.html">
-<link rel="import" href="bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
-<link rel="import" href="bower_components/app-route/app-route.html">
-<link rel="import" href="bower_components/app-route/app-location.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../iron-pages/iron-pages.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../app-layout/app-header/app-header.html">
+<link rel="import" href="../app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../app-route/app-route.html">
+<link rel="import" href="../app-route/app-location.html">
 
 <dom-module id="conman-app">
   <template>
@@ -41,9 +41,14 @@
     </style>
     <app-location route="{{route}}"></app-location>
     <app-route
-        route="{{route}}"
-        pattern="/:con/:page"
+        route="[[route]]"
+        pattern="/:con"
         data="{{data}}"
+        tail="{{subRoute}}"></app-route>
+    <app-route
+        route="[[fixRoute(subRoute)]]"
+        pattern="/:page"
+        data="{{pageData}}"
         tail="{{tail}}"></app-route>
 
     <app-header-layout>
@@ -82,7 +87,7 @@
     <!-- these should be created lazily?? -->
     <firebase-document
         app-name="con-man"
-        path="/con/{{data.con}}/summary"
+        path="/con/[[data.con]]/summary"
         data="{{remoteSummary}}"></firebase-document>
     <offline-cache
         scope="conman/static"
@@ -99,8 +104,10 @@
         suppress-empty
         out="{{summary}}"></offline-cache>
 
+    <a href="/[[data.con]]/schedule">Schedule</a>
+    <a href="/[[data.con]]">Summary</a>
     <iron-pages
-        selected="[[data.page]]"
+        selected="[[pageData.page]]"
         attr-for-selected="id"
         fallback-selection="summary">
       <conman-summary id="summary" summary="[[summary]]"></conman-summary>
@@ -115,6 +122,10 @@
       behaviors: [Polymer.NoteAppBehavior],
       signIn: function() {
         this.$.auth.signInWithPopup();
+      },
+      // FIXME: What's the right way to default to summary?
+      fixRoute(route) {
+        return route.path ? route : {path: '/summary', prefix: route.prefix};
       },
       properties: {
         defaultSummary: {

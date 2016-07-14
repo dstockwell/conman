@@ -4,25 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<base>
-<script>
-// Setup base url relative to conman.com/<con>/
-document
-    .querySelector('base')
-    .setAttribute('href', document.location.pathname.match('/[^/]+') + '/');
-</script>
-
 <link rel="manifest" href="manifest.json">
 
-<script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/webcomponentsjs/webcomponents-lite.js"></script>
 
-<link rel="import" href="bower_components/font-roboto/roboto.html">
+<link rel="import" href="/components/font-roboto/roboto.html">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,700">
 
-<link rel="import" href="bower_components/platinum-sw/platinum-sw-elements.html">
-<link rel="import" href="bower_components/polymerfire/firebase-app.html">
+<link rel="import" href="/components/platinum-sw/platinum-sw-elements.html">
+<link rel="import" href="/components/polymerfire/firebase-app.html">
 
-<link rel="import" href="conman-app.html">
+<link rel="import" href="/components/conman/conman-app.html">
 
 <style>
   body {
@@ -38,7 +30,7 @@ document
     skip-waiting
     clients-claim
     reload-on-install
-    href="sw-import.js">
+    href="/sw-import.js">
   <platinum-sw-cache
       default-cache-strategy="networkFirst">
   </platinum-sw-cache>
