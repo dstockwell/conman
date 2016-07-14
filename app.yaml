@@ -10,9 +10,18 @@ libraries:
 handlers:
 - url: /[\d\w-]+/api/.*
   script: api.api.app
-- url: /[\d\w-]+/(.*\.(html|css|js|json))
+- url: /components/conman/(.*\.(html|css|js|json))
   upload: client/.*\.(html|css|js|json)
   static_files: client/\1
+- url: /components/(.*\.(html|css|js|json))
+  upload: client/bower_components/.*\.(html|css|js|json)
+  static_files: client/bower_components/\1
+- url: /[\d\w-]+/manifest.json
+  upload: client/manifest.json
+  static_files: client/manifest.json
+- url: /sw-import.js
+  upload: client/sw-import.js
+  static_files: client/sw-import.js
 - url: /[\d\w-]+(/.*)?
   upload: client/index.html
   static_files: client/index.html
